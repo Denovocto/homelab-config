@@ -1,0 +1,28 @@
+# Claude Code Ignore File
+# Files and directories that Claude should not read by default to keep context minimal
+
+# Secrets (NEVER show these for security)
+secrets/
+*.secret
+*.key
+
+# Environment files with sensitive configuration
+*.env
+!*.env.template
+!*.env.example
+
+# Backup files (usually not relevant for assistance)
+backups/
+
+# Log files (usually not needed for context)
+logs/
+*.log
+
+# Git internals
+.git/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~

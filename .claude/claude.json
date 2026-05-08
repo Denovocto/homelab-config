@@ -1,0 +1,11 @@
+{
+  "description": "Homelab GitOps Configuration - Podman Quadlets for containerized services",
+  "model": "sonnet",
+  "settings": {
+    "context_strategy": "minimal",
+    "always_read_files": [
+      ".claude/REPOSITORY_GUIDE.md",
+      "README.md"
+    ]
+  }
+}
