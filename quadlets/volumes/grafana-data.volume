@@ -1,0 +1,5 @@
+[Volume]
+VolumeName=grafana-data
+
+[Install]
+WantedBy=default.target

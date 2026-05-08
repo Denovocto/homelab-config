@@ -1,9 +1,0 @@
-MAX_MEMORY=4G
-INIT_MEMORY=2G
-EULA=TRUE
-VERSION=1.16.5
-MODE=survival
-TYPE=FORGE
-SERVER_NAME=Pixelmon en una papa
-MOTD="Pixelmon on a Potato"
-MODS=https://dl.reforged.gg/4dvlYEb,https://mediafilez.forgecdn.net/files/3802/698/ftb-ranks-forge-1605.1.6-build.33.jar,https://mediafilez.forgecdn.net/files/3553/840/ftb-library-forge-1605.3.4-build.90.jar,https://mediafilez.forgecdn.net/files/4521/290/architectury-1.32.68.jar,https://mediafilez.forgecdn.net/files/4110/51/Prometheus-Exporter-1.16.5-forge-1.0.0.jar

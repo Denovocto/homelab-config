@@ -1,0 +1,6 @@
+[Network]
+NetworkName=homelab
+Driver=bridge
+
+[Install]
+WantedBy=default.target

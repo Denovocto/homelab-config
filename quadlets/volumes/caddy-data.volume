@@ -1,0 +1,5 @@
+[Volume]
+VolumeName=caddy-data
+
+[Install]
+WantedBy=default.target

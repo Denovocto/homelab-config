@@ -1,0 +1,62 @@
+# Secrets - NEVER commit these!
+secrets/*.env
+secrets/*.txt
+secrets/*.key
+secrets/*.pem
+configs/authelia/users_database.yml
+
+# Service-specific environment files with sensitive data
+configs/restic/restic.env
+configs/restic/known_hosts
+
+# Backups
+backups/
+
+# Logs
+logs/
+
+# Local overrides
+*.local
+
+# Temporary files
+*.tmp
+*.log
+
+# Old structure (to be cleaned up later)
+chat.txt
+
+# OS and editor files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

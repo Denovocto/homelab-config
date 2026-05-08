@@ -1,0 +1,25 @@
+[Unit]
+Description=Grafana Dashboards
+After=prometheus.service homelab-network.service
+
+[Container]
+Image=docker.io/grafana/grafana:latest
+ContainerName=grafana
+AutoUpdate=registry
+
+Network=homelab.network
+PublishPort=3000:3000
+
+Volume=grafana-data.volume:/var/lib/grafana:Z
+
+# Environment configuration
+EnvironmentFile=%h/homelab-config/configs/grafana/grafana.env
+
+# Admin password secret
+Secret=grafana-admin-password,type=mount,target=/run/secrets/grafana_admin_password
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

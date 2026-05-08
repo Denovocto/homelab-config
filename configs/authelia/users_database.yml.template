@@ -1,0 +1,23 @@
+---
+# Authelia Users Database Template
+#
+# Copy this file to users_database.yml and fill in actual values
+# DO NOT commit users_database.yml to git (it's in .gitignore)
+#
+# To generate password hash:
+# podman run --rm authelia/authelia:latest authelia crypto hash generate argon2 --password 'YourPassword'
+
+users:
+  admin:
+    displayname: "Admin User"
+    password: "$argon2id$..."  # Replace with actual hash
+    email: admin@yourdomain.com
+    groups:
+      - admins
+
+  friend1:
+    displayname: "Friend Name"
+    password: "$argon2id$..."  # Replace with actual hash
+    email: friend@example.com
+    groups:
+      - users

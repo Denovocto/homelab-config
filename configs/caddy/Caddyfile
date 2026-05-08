@@ -1,0 +1,49 @@
+# Caddy Configuration for Homelab
+# Replace yourdomain.com with your actual domain
+
+{
+    email your@email.com
+    admin off
+}
+
+# Authelia SSO endpoint
+auth.yourdomain.com {
+    reverse_proxy authelia:9091
+}
+
+# Protected app example: Homarr
+homarr.yourdomain.com {
+    # Forward auth to Authelia
+    forward_auth authelia:9091 {
+        uri /api/verify?rd=https://auth.yourdomain.com
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+    }
+
+    reverse_proxy homarr:7575
+}
+
+# Grafana (requires 2FA, configured in Authelia rules)
+grafana.yourdomain.com {
+    forward_auth authelia:9091 {
+        uri /api/verify?rd=https://auth.yourdomain.com
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+    }
+
+    reverse_proxy grafana:3000
+}
+
+# Prometheus (requires 2FA, configured in Authelia rules)
+prometheus.yourdomain.com {
+    forward_auth authelia:9091 {
+        uri /api/verify?rd=https://auth.yourdomain.com
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+    }
+
+    reverse_proxy prometheus:9090
+}
+
+# Minecraft status page (public, no auth)
+minecraft.yourdomain.com {
+    # Could serve a static status page or web interface
+    respond "Minecraft server: mc.yourdomain.com:25565"
+}

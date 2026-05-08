@@ -1,0 +1,33 @@
+[Unit]
+Description=Minecraft Pixelmon Server
+After=network-online.target homelab-network.service
+
+[Container]
+Image=docker.io/itzg/minecraft-server:java11
+ContainerName=minecraft-papa
+AutoUpdate=registry
+
+# Network
+Network=homelab.network
+PublishPort=25565:25565
+PublishPort=19565:19565
+
+# Volumes
+Volume=minecraft-data.volume:/data:Z
+
+# Environment configuration
+EnvironmentFile=%h/homelab-config/configs/minecraft/minecraft.env
+
+# Discord Webhook (via Podman secret)
+Secret=minecraft-discord-webhook,type=env,target=DISCORD_WEBHOOK
+
+# Resource Limits
+MemoryMax=5G
+MemoryHigh=4.5G
+
+[Service]
+Restart=always
+TimeoutStartSec=600
+
+[Install]
+WantedBy=default.target

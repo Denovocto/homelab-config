@@ -1,0 +1,21 @@
+[Unit]
+Description=Daily Restic Backup Timer
+Documentation=https://restic.readthedocs.io/
+
+[Timer]
+# Run daily at 2:00 AM
+OnCalendar=daily
+# Specifically at 02:00
+OnCalendar=*-*-* 02:00:00
+
+# If system was off during scheduled time, run on next boot
+Persistent=true
+
+# Randomize start time by up to 15 minutes to avoid resource spikes
+RandomizedDelaySec=15min
+
+# The service to trigger (restic-backup.service from the Quadlet)
+Unit=restic-backup.service
+
+[Install]
+WantedBy=timers.target

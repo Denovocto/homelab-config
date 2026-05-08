@@ -1,0 +1,31 @@
+[Unit]
+Description=Caddy Reverse Proxy
+After=network-online.target homelab-network.service
+
+[Container]
+Image=docker.io/library/caddy:latest
+ContainerName=caddy
+AutoUpdate=registry
+
+Network=homelab.network
+PublishPort=80:80
+PublishPort=443:443
+PublishPort=443:443/udp
+PublishPort=2019:2019
+
+# Configuration and data volumes
+Volume=%h/homelab-config/configs/caddy/Caddyfile:/etc/caddy/Caddyfile:Z,ro
+Volume=caddy-data.volume:/data:Z
+Volume=caddy-config.volume:/config:Z
+
+# Environment configuration
+EnvironmentFile=%h/homelab-config/configs/caddy/caddy.env
+
+# Cloudflare API token for DNS challenge (optional)
+Secret=cloudflare-api-token,type=env,target=CLOUDFLARE_API_TOKEN
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

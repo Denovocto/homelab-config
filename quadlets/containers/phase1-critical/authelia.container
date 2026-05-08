@@ -1,0 +1,28 @@
+[Unit]
+Description=Authelia SSO
+After=network-online.target homelab-network.service
+
+[Container]
+Image=docker.io/authelia/authelia:latest
+ContainerName=authelia
+AutoUpdate=registry
+
+Network=homelab.network
+PublishPort=9091:9091
+
+# Config directory (contains configuration.yml and users_database.yml)
+Volume=%h/homelab-config/configs/authelia:/config:Z
+
+# Environment configuration
+EnvironmentFile=%h/homelab-config/configs/authelia/authelia.env
+
+# Secrets (injected as environment variables)
+Secret=authelia-jwt-secret,type=env,target=AUTHELIA_JWT_SECRET
+Secret=authelia-session-secret,type=env,target=AUTHELIA_SESSION_SECRET
+Secret=authelia-storage-key,type=env,target=AUTHELIA_STORAGE_ENCRYPTION_KEY
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

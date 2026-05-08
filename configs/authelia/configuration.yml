@@ -1,0 +1,73 @@
+---
+server:
+  address: 'tcp://0.0.0.0:9091'
+
+log:
+  level: 'info'
+  format: 'text'
+
+# JWT secret from Podman secret
+jwt_secret: '${AUTHELIA_JWT_SECRET}'
+
+# Default theme
+theme: 'dark'
+
+# Authentication backend
+authentication_backend:
+  file:
+    path: '/config/users_database.yml'
+  password_reset:
+    disable: false
+
+# Password policy
+password_policy:
+  standard:
+    enabled: true
+    min_length: 12
+    require_uppercase: true
+    require_lowercase: true
+    require_number: true
+    require_special: false
+
+# Access control rules
+access_control:
+  default_policy: 'deny'
+
+  rules:
+    # Allow all authenticated users to access services
+    - domain:
+        - 'minecraft.yourdomain.com'
+        - 'homarr.yourdomain.com'
+        - 'grafana.yourdomain.com'
+        - 'affine.yourdomain.com'
+      policy: 'one_factor'  # Username + password
+
+    # Require 2FA for admin services
+    - domain:
+        - 'prometheus.yourdomain.com'
+      policy: 'two_factor'  # Username + password + TOTP
+
+# Session configuration
+session:
+  secret: '${AUTHELIA_SESSION_SECRET}'
+  name: 'authelia_session'
+  domain: 'yourdomain.com'
+  expiration: '1h'
+  inactivity: '5m'
+
+# Storage (encrypted SQLite)
+storage:
+  encryption_key: '${AUTHELIA_STORAGE_ENCRYPTION_KEY}'
+  local:
+    path: '/config/db.sqlite3'
+
+# Notification (file-based for now, can add SMTP later)
+notifier:
+  filesystem:
+    filename: '/config/notification.txt'
+
+# TOTP (Google Authenticator, Authy, etc.)
+totp:
+  issuer: 'yourdomain.com'
+  period: 30
+  skew: 1

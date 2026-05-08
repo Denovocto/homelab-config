@@ -1,0 +1,5 @@
+[Volume]
+VolumeName=caddy-config
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,27 @@
+[Unit]
+Description=Prometheus Metrics Collector
+After=network-online.target homelab-network.service minecraft.service
+
+[Container]
+Image=docker.io/prom/prometheus:latest
+ContainerName=prometheus
+AutoUpdate=registry
+
+Network=homelab.network
+PublishPort=9090:9090
+
+# Configuration and data volumes
+Volume=%h/homelab-config/configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:Z,ro
+Volume=prometheus-data.volume:/prometheus:Z
+
+# Environment configuration
+EnvironmentFile=%h/homelab-config/configs/prometheus/prometheus.env
+
+# Run as non-root (Prometheus user in image)
+User=65534:65534
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

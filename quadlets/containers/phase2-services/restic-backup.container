@@ -1,0 +1,84 @@
+[Unit]
+Description=Restic Backup Service
+Documentation=https://restic.readthedocs.io/
+After=network-online.target
+
+# Ensure volumes exist before backup
+After=minecraft-data-volume.service
+After=prometheus-data-volume.service
+After=grafana-data-volume.service
+After=caddy-data-volume.service
+After=caddy-config-volume.service
+
+# Don't run if services are actively running (optional - comment out if you want to backup while services run)
+# After=minecraft.service
+# After=prometheus.service
+# After=grafana.service
+
+[Container]
+Image=docker.io/restic/restic:latest
+ContainerName=restic-backup
+AutoUpdate=registry
+
+# Mount all volumes to be backed up (read-only for safety)
+Volume=minecraft-data.volume:/backup-source/minecraft-data:Z,ro
+Volume=prometheus-data.volume:/backup-source/prometheus-data:Z,ro
+Volume=grafana-data.volume:/backup-source/grafana-data:Z,ro
+Volume=caddy-data.volume:/backup-source/caddy-data:Z,ro
+Volume=caddy-config.volume:/backup-source/caddy-config:Z,ro
+
+# Mount backup script
+Volume=%h/homelab-config/scripts/restic-backup.sh:/usr/local/bin/restic-backup.sh:Z,ro
+
+# Mount restic configuration
+Volume=%h/homelab-config/configs/restic:/config:Z,ro
+
+# Mount log directory (create on host first)
+Volume=%h/homelab-config/logs:/var/log:Z
+
+# Optional: Mount NFS/SMB if using local repository
+# Uncomment and adjust path if using NFS or SMB mount
+# Volume=/mnt/nas-backups:/mnt/nas:Z
+
+# Secrets - Restic password
+Secret=restic-repository-password,type=mount,target=/run/secrets/restic_repository_password
+
+# Secrets - SSH key for SFTP (if using SFTP repository)
+Secret=restic-ssh-key,type=mount,target=/run/secrets/restic_ssh_key,mode=0400
+
+# Secrets - Discord notifications
+Secret=restic-discord-webhook,type=env,target=DISCORD_WEBHOOK_URL
+Secret=discord-user-id,type=env,target=DISCORD_USER_ID
+
+# Environment file (contains RESTIC_REPOSITORY and other settings)
+EnvironmentFile=%h/homelab-config/configs/restic/restic.env
+
+# Restic password file location
+Environment=RESTIC_PASSWORD_FILE=/run/secrets/restic_repository_password
+
+# SSH configuration for SFTP
+Environment=RESTIC_SFTP_COMMAND=ssh -i /run/secrets/restic_ssh_key -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/config/known_hosts
+
+# Set hostname for restic snapshots
+Environment=RESTIC_HOST=homelab
+
+# Container command - run the backup script
+Exec=/usr/local/bin/restic-backup.sh
+
+# Run as root inside container (needed to read all files in volumes)
+User=0:0
+
+# Network access (needed for SFTP, Discord, etc.)
+Network=host
+
+[Service]
+Type=oneshot
+Restart=no
+TimeoutStartSec=0
+
+# Prevent multiple simultaneous backups
+# If a backup is still running, don't start another
+ExecCondition=/usr/bin/bash -c '! /usr/bin/podman ps --filter name=restic-backup --filter status=running --quiet | grep -q .'
+
+[Install]
+WantedBy=default.target

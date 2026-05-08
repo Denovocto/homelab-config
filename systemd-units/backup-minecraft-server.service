@@ -1,9 +1,0 @@
-[Unit]
-Description=Service that backups minecraft server to NAS
-After=startup-minecraft-server.service
-
-[Service]
-User=denovocto
-Restart=on-failure
-WorkingDirectory=/home/denovocto/applications/minecraft
-ExecStart=/bin/bash -l /home/denovocto/applications/minecraft/backup_minecraft_server.sh

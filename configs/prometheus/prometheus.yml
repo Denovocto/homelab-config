@@ -1,0 +1,53 @@
+global:
+  scrape_interval: 30s
+  evaluation_interval: 30s
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: 'homelab-prometheus'
+    environment: 'production'
+
+# Alertmanager configuration (optional - uncomment if you add Alertmanager)
+# alerting:
+#   alertmanagers:
+#     - static_configs:
+#         - targets:
+#           - alertmanager:9093
+
+# Load rules once and periodically evaluate them
+# rule_files:
+#   - "alerts/*.yml"
+
+scrape_configs:
+  # Minecraft Server Metrics
+  - job_name: "minecraft"
+    static_configs:
+      - targets: ["minecraft-papa:19565"]
+        labels:
+          server_name: "minecraft-papa"
+          service: "minecraft"
+
+  # Prometheus Self-Monitoring
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+        labels:
+          service: "prometheus"
+
+  # Add more scrape targets here as you deploy services
+  # Example: Caddy metrics
+  # - job_name: "caddy"
+  #   static_configs:
+  #     - targets: ["caddy:2019"]
+
+  # Example: Node Exporter (host metrics)
+  # - job_name: "node"
+  #   static_configs:
+  #     - targets: ["node-exporter:9100"]
+
+  # Example: Uptime Kuma (when deployed)
+  # - job_name: "uptime-kuma"
+  #   static_configs:
+  #     - targets: ["uptime-kuma:3001"]
+  #   metrics_path: '/metrics'

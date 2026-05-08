@@ -1,0 +1,5 @@
+[Volume]
+VolumeName=prometheus-data
+
+[Install]
+WantedBy=default.target

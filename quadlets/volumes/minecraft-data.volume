@@ -1,0 +1,5 @@
+[Volume]
+VolumeName=minecraft-data
+
+[Install]
+WantedBy=default.target
