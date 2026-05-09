@@ -7,8 +7,13 @@ Image=docker.io/authelia/authelia:latest
 ContainerName=authelia
 AutoUpdate=registry
 
+# Run as non-root user (recommended by Authelia)
+User=1000:1000
+
 Network=homelab.network
-PublishPort=9091:9091
+
+# Port not published - Caddy accesses Authelia via internal homelab network
+# PublishPort=9091:9091
 
 # Config directory (contains configuration.yml and users_database.yml)
 Volume=%h/homelab-config/configs/authelia:/config:Z

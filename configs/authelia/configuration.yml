@@ -54,6 +54,10 @@ session:
   domain: 'yourdomain.com'
   expiration: '1h'
   inactivity: '5m'
+  cookies:
+    - domain: 'yourdomain.com'
+      authelia_url: 'auth.yourdomain.com'
+      default_redirection_url: 'https://homarr.yourdomain.com'
 
 # Storage (encrypted SQLite)
 storage:
