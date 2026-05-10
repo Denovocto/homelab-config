@@ -22,13 +22,13 @@ Volume=%h/homelab-config/configs/authelia:/config:Z
 EnvironmentFile=%h/homelab-config/configs/authelia/authelia.env
 
 # Secrets (injected as environment variables)
-Secret=authelia-jwt-secret,type=env,target=AUTHELIA_JWT_SECRET
+Secret=authelia-jwt-secret,type=env,target=AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET
 Secret=authelia-session-secret,type=env,target=AUTHELIA_SESSION_SECRET
 Secret=authelia-storage-key,type=env,target=AUTHELIA_STORAGE_ENCRYPTION_KEY
 Secret=authelia-oidc-hmac-secret,type=env,target=AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET
 Secret=authelia-oidc-private-key,type=env,target=AUTHELIA_IDENTITY_PROVIDERS_OIDC_ISSUER_PRIVATE_KEY
-Secret=homarr-oidc-client-secret,type=env,target=AUTHELIA_IDENTITY_PROVIDERS_OIDC_CLIENTS_0_SECRET
-Secret=grafana-oidc-client-secret,type=env,target=AUTHELIA_IDENTITY_PROVIDERS_OIDC_CLIENTS_1_SECRET
+Secret=homarr-oidc-client-secret,type=env,target=AUTHELIA_IDENTITY_PROVIDERS_OIDC_CLIENTS_0_CLIENT_SECRET
+Secret=grafana-oidc-client-secret,type=env,target=AUTHELIA_IDENTITY_PROVIDERS_OIDC_CLIENTS_1_CLIENT_SECRET
 
 [Service]
 Restart=always
