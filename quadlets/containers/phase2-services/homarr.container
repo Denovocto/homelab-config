@@ -17,6 +17,9 @@ Volume=homarr-icons.volume:/app/public/icons:Z
 # Environment configuration
 EnvironmentFile=%h/homelab-config/configs/homarr/homarr.env
 
+# Encryption key secret
+Secret=homarr-encryption-key,type=env,target=SECRET_ENCRYPTION_KEY
+
 [Service]
 Restart=always
 
