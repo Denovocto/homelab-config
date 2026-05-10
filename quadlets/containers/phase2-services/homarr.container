@@ -1,0 +1,28 @@
+[Unit]
+Description=Homarr - Customizable Dashboard for Your Services
+After=network-online.target homelab-network.service caddy.service
+
+[Container]
+Image=ghcr.io/homarr-labs/homarr:latest
+ContainerName=homarr
+AutoUpdate=registry
+
+# Network
+Network=homelab.network
+
+# Volumes
+Volume=homarr-data.volume:/app/data/configs:Z
+Volume=homarr-icons.volume:/app/public/icons:Z
+
+# Environment configuration
+EnvironmentFile=%h/homelab-config/configs/homarr/homarr.env
+
+# Resource Limits (adjust based on service needs)
+MemoryMax=2G
+MemoryHigh=1.5G
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

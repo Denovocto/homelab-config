@@ -1,0 +1,5 @@
+[Volume]
+VolumeName=homarr-data
+
+[Install]
+WantedBy=default.target

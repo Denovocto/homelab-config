@@ -8,7 +8,7 @@ ContainerName=prometheus
 AutoUpdate=registry
 
 Network=homelab.network
-PublishPort=9090:9090
+# PublishPort=9090:9090
 
 # Configuration and data volumes
 Volume=%h/homelab-config/configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:Z,ro

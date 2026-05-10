@@ -1,0 +1,5 @@
+[Volume]
+VolumeName=homarr-icons
+
+[Install]
+WantedBy=default.target
