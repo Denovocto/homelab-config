@@ -21,13 +21,13 @@ EnvironmentFile=%h/homelab-config/configs/minecraft/minecraft.env
 # Discord Webhook (via Podman secret)
 Secret=minecraft-discord-webhook,type=env,target=DISCORD_WEBHOOK
 
-# Resource Limits
-MemoryMax=5G
-MemoryHigh=4.5G
-
 [Service]
 Restart=always
 TimeoutStartSec=600
+
+# Resource Limits
+MemoryMax=5G
+MemoryHigh=4.5G
 
 [Install]
 WantedBy=default.target

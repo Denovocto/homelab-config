@@ -53,12 +53,12 @@ Network=homelab.network
 # Environment configuration
 EnvironmentFile=%h/homelab-config/configs/{service-name}/{service-name}.env
 
+[Service]
+Restart=always
+
 # Resource Limits (adjust based on service needs)
 MemoryMax=2G
 MemoryHigh=1.5G
-
-[Service]
-Restart=always
 
 [Install]
 WantedBy=default.target
@@ -86,12 +86,12 @@ Network=homelab.network
 # Environment configuration
 EnvironmentFile=%h/homelab-config/configs/{service-name}/{service-name}.env
 
+[Service]
+Restart=always
+
 # Resource Limits (adjust based on service needs)
 MemoryMax=1G
 MemoryHigh=800M
-
-[Service]
-Restart=always
 
 [Install]
 WantedBy=default.target

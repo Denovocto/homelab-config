@@ -17,12 +17,12 @@ Volume=homarr-icons.volume:/app/public/icons:Z
 # Environment configuration
 EnvironmentFile=%h/homelab-config/configs/homarr/homarr.env
 
+[Service]
+Restart=always
+
 # Resource Limits (adjust based on service needs)
 MemoryMax=2G
 MemoryHigh=1.5G
-
-[Service]
-Restart=always
 
 [Install]
 WantedBy=default.target
