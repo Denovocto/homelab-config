@@ -21,9 +21,23 @@ mkdir -p "$SYSTEMD_USER_DIR"
 
 # Copy Quadlets
 echo "Deploying Quadlets..."
-rsync -av --delete "$REPO_DIR/quadlets/networks/" "$SYSTEMD_DIR/networks/"
-rsync -av --delete "$REPO_DIR/quadlets/volumes/" "$SYSTEMD_DIR/volumes/"
-rsync -av --delete "$REPO_DIR/quadlets/containers/" "$SYSTEMD_DIR/containers/"
+
+# Clear existing quadlets to avoid stale files
+rm -f "$SYSTEMD_DIR/networks/"*.network
+rm -f "$SYSTEMD_DIR/volumes/"*.volume
+rm -f "$SYSTEMD_DIR/containers/"*.container
+
+# Copy network quadlets (flatten from any subdirectories)
+echo "  - Networks..."
+find "$REPO_DIR/quadlets/networks" -type f -name "*.network" -exec cp {} "$SYSTEMD_DIR/networks/" \;
+
+# Copy volume quadlets (flatten from any subdirectories)
+echo "  - Volumes..."
+find "$REPO_DIR/quadlets/volumes" -type f -name "*.volume" -exec cp {} "$SYSTEMD_DIR/volumes/" \;
+
+# Copy container quadlets (flatten from any subdirectories)
+echo "  - Containers..."
+find "$REPO_DIR/quadlets/containers" -type f -name "*.container" -exec cp {} "$SYSTEMD_DIR/containers/" \;
 
 # Copy systemd timers
 if [ -d "$REPO_DIR/quadlets/timers" ]; then

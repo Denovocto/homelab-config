@@ -8,15 +8,17 @@
 }
 
 # Authelia SSO endpoint
-http://auth.yourdomain.com {
+https://auth.yourdomain.com {
+    tls internal
     reverse_proxy authelia:9091
 }
 
 # Protected app example: Homarr
-http://homarr.yourdomain.com {
+https://homarr.yourdomain.com {
+    tls internal
     # Forward auth to Authelia
     forward_auth authelia:9091 {
-        uri /api/verify?rd=http://auth.yourdomain.com
+        uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
     }
 
@@ -24,9 +26,10 @@ http://homarr.yourdomain.com {
 }
 
 # Grafana (requires 2FA, configured in Authelia rules)
-http://grafana.yourdomain.com {
+https://grafana.yourdomain.com {
+    tls internal
     forward_auth authelia:9091 {
-        uri /api/verify?rd=http://auth.yourdomain.com
+        uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
     }
 
@@ -34,9 +37,10 @@ http://grafana.yourdomain.com {
 }
 
 # Prometheus (requires 2FA, configured in Authelia rules)
-http://prometheus.yourdomain.com {
+https://prometheus.yourdomain.com {
+    tls internal
     forward_auth authelia:9091 {
-        uri /api/verify?rd=http://auth.yourdomain.com
+        uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
     }
 
@@ -44,7 +48,8 @@ http://prometheus.yourdomain.com {
 }
 
 # Minecraft status page (public, no auth)
-http://minecraft.yourdomain.com {
+https://minecraft.yourdomain.com {
+    tls internal
     # Could serve a static status page or web interface
-    respond "Minecraft server: http://mc.yourdomain.com:25565"
+    respond "Minecraft server: https://mc.yourdomain.com:25565"
 }
