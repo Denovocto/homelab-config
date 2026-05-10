@@ -79,3 +79,51 @@ totp:
   issuer: 'yourdomain.com'
   period: 30
   skew: 1
+
+# OpenID Connect Provider (for SSO with services like Homarr)
+identity_providers:
+  oidc:
+    hmac_secret: '${AUTHELIA_OIDC_HMAC_SECRET}'
+    jwks:
+      - key: '${AUTHELIA_OIDC_ISSUER_PRIVATE_KEY}'
+
+    clients:
+      - client_id: 'homarr'
+        client_name: 'Homarr Dashboard'
+        client_secret: '${HOMARR_OIDC_CLIENT_SECRET}'
+        public: false
+        authorization_policy: 'one_factor'
+        require_pkce: false
+        redirect_uris:
+          - 'https://homarr.yourdomain.com/api/auth/callback/oidc'
+          - 'http://localhost:7575/api/auth/callback/oidc'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'groups'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        token_endpoint_auth_method: 'client_secret_basic'
+
+      - client_id: 'grafana'
+        client_name: 'Grafana'
+        client_secret: '${GRAFANA_OIDC_CLIENT_SECRET}'
+        public: false
+        authorization_policy: 'one_factor'
+        require_pkce: false
+        redirect_uris:
+          - 'https://grafana.yourdomain.com/login/generic_oauth'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'groups'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        token_endpoint_auth_method: 'client_secret_post'
+        userinfo_signed_response_alg: 'none'
